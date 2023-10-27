@@ -62,8 +62,8 @@ int main(int argc, char *argv[]) {
     cublasHandle_t cublasH = NULL;
     cudaStream_t stream = NULL;
 
-    const int m = 2;
-    const int n = 2;
+    const int m = 3;
+    const int n = 3;
     const int lda = m;
 
     /*
@@ -72,15 +72,52 @@ int main(int argc, char *argv[]) {
      *   x = | 5.0 6.0 |
      */
 
-    const std::vector<data_type> A = {1.0, 3.0, 2.0, 4.0};
-    const std::vector<data_type> x = {5.0, 6.0};
+    // const std::vector<data_type> A = {0.0, 30.0, 200.0, 4000.0};
+    const std::vector<data_type> A = {0.0, 00.0, 200.0, 0000.0, 4e4, 5e5, 6e6, 7e7, 8e8};
+    /**
+     * 此处说明一下A的存储格式，
+     * A是带状矩阵存储的实际内存
+     * 假设一维内存如下:
+     * A = [A0, A1, A2, A3, A4, A5, A6, A7, A8 ]
+     * 那么实际在逻辑上 A所表示的带状矩阵为
+     * Aband = 
+     * [
+     * A0, A3, A6
+     * A1, A4, A7
+     * A2, A5, A8
+     * ]
+     * 
+     * 若ku = 2, kl = 0 则 Aband(ku=2, kl=0) = 
+     * [
+     *  x,  x,  A6
+     *  x, A4,  A7,
+     * A2, A5,  A8
+     * ]
+     * 其中x代表不会使用的元素
+     * 
+     * A的原矩阵 Aori(ku=2, kl=0)为:
+     * [
+     * A2, A4, A6
+     *  x, A5, A7
+     *  x,  x, A8
+     * ]
+     *  
+     * *********************************************
+     * 
+     * 沿用上述A,Aband
+     * 若ku = 1, kl = 1 则 Aband(ku=1, kl=1) = 
+     * [
+     * ]
+     * 
+    */
+    const std::vector<data_type> x = {5.0, 6.0, 7.0};
     std::vector<data_type> y(m, 0);
     const data_type alpha = 1.0;
     const data_type beta = 0.0;
     const int incx = 1;
     const int incy = 1;
     const int kl = 0;
-    const int ku = 1;
+    const int ku = 2;
 
     data_type *d_A = nullptr;
     data_type *d_x = nullptr;

@@ -67,10 +67,18 @@ int main(int argc, char *argv[]) {
      *   B = | 5.0 6.0 7.0 8.0 |
      */
 
-    std::vector<data_type> A = {1.0, 2.0, 3.0, 4.0};
-    std::vector<data_type> B = {5.0, 6.0, 7.0, 8.0};
-    const data_type c = 2.1;
-    const data_type s = 1.2;
+    std::vector<data_type> A = {1.0, 2.0, 3.0, 4.0, 1};
+    std::vector<data_type> B = {5.0, 6.0, 7.0, 8.0, 1};
+    // const data_type c = 2.1;
+    // const data_type s = 1.2;
+    /**
+     * G = 
+     * [[ c, s],
+     *  [-s, c]]
+     * 
+     * 旋转后的向量 v1 = G@v
+    */
+    const data_type c = 0.70710678, s = c;  // 笛卡尔直角坐标系  顺时针转  
     const int incx = 1;
     const int incy = 1;
 

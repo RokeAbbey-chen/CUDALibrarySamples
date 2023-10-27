@@ -67,17 +67,25 @@ int main(int argc, char *argv[]) {
      *   B = 1.20
      */
 
-    data_type A = 2.1;
-    data_type B = 1.2;
-    data_type c = 2.1;
-    data_type s = 1.2;
+    // data_type A = 2.1;
+    // data_type B = 1.2;
+    // data_type c = 2.1;
+    // data_type s = 1.2;
+    /**
+     * 功能是将向量 (A, B) 
+    */
+    // data_type A = 0.866025, B = 0.600000;
+    data_type A = 0.707106, B = A;
+    data_type c = 87, s = 0.5; // 是否初始化无所谓
+    // data_type c = 0.707106, s = c;
+    // data_type s = 1.2;
 
-    printf("A\n");
-    std::printf("%0.2f\n", A);
+    // printf("A\n");
+    std::printf("A:%lf, c:%lf\n", A, c);
     printf("=====\n");
 
-    printf("B\n");
-    std::printf("%0.2f\n", B);
+    // printf("B\n");
+    std::printf("B:%lf, s:%lf\n", B, s);
     printf("=====\n");
 
     /* step 1: create cublas handle, bind a stream */
@@ -97,11 +105,13 @@ int main(int argc, char *argv[]) {
      */
 
      printf("A\n");
-     std::printf("%0.2f\n", A);
+    //  std::printf("%0.2f\n", A);
+     std::printf("A:%lf, c:%.16lf\n", A, c);
      printf("=====\n");
  
      printf("B\n");
-     std::printf("%0.2f\n", B);
+    //  std::printf("%0.2f\n", B);
+     std::printf("B:%lf, s:%.16lf\n", B, s);
      printf("=====\n");
 
     /* free resources */
