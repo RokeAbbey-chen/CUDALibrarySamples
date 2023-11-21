@@ -55,6 +55,7 @@
 #include <cuda_runtime.h>
 
 #include "cublas_utils.h"
+// #include <cublas_api.h>
 
 using data_type = double;
 
@@ -62,13 +63,13 @@ int main(int argc, char *argv[]) {
     cublasHandle_t cublasH = NULL;
     cudaStream_t stream = NULL;
 
-    const int m = 2;
-    const int n = 2;
-    const int k = 2;
-    const int lda = 2;
-    const int ldb = 2;
-    const int ldc = 2;
-    const int batch_count = 2;
+    int m = 2;
+    int n = 2;
+    int k = 2;
+    int lda = 2;
+    int ldb = 2;
+    int ldc = 2;
+    int batch_count = 2;
 
     /*
      *   A = | 1.0 | 2.0 | 5.0 | 6.0 |
@@ -153,9 +154,42 @@ int main(int argc, char *argv[]) {
                                cudaMemcpyHostToDevice, stream));
 
     /* step 3: compute */
-    CUBLAS_CHECK(cublasGemmBatchedEx(cublasH, transa, transb, m, n, k, &alpha, d_A_array,
-                                     traits<data_type>::cuda_data_type, lda, d_B_array,
-                                     traits<data_type>::cuda_data_type, ldb, &beta, d_C_array,
+    // cublasStatus_t (*ptr) (cublasHandle_t handle,
+    //                                              cublasOperation_t transa,
+    //                                              cublasOperation_t transb,
+    //                                              int m,
+    //                                              int n,
+    //                                              int k,
+    //                                              const void* alpha, /* host or device pointer */
+    //                                              const void* const Aarray[],
+    //                                              cudaDataType Atype,
+    //                                              int lda,
+    //                                              const void* const Barray[],
+    //                                              cudaDataType Btype,
+    //                                              int ldb,
+    //                                              const void* beta, /* host or device pointer */
+    //                                              void* const Carray[],
+    //                                              cudaDataType Ctype,
+    //                                              int ldc,
+    //                                              int batchCount,
+    //                                              cudaDataType computeType,
+    //                                              cublasGemmAlgo_t algo) = cublasGemmBatchedEx;
+    // const void* const *Aarray;
+    // Aarray = d_A_array;
+    // return ;
+    // (cublasGemmBatchedEx(cublasH, transa, transb, m, n, k, &alpha, nullptr, //d_A_array,
+    //                                  CUDA_R_64F, lda, nullptr, //d_B_array,
+    //                                  CUDA_R_64F, ldb, &beta, reinterpret_cast<void* const *>(d_C_array),
+    //                                  CUDA_R_64F, ldc, batch_count,
+    //                                  compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP));
+
+
+    CUBLAS_CHECK(cublasGemmBatchedEx(cublasH, transa, transb, m, n, k, &alpha, 
+                                     reinterpret_cast<const void* const *>(d_A_array),
+                                     traits<data_type>::cuda_data_type, lda, 
+                                     reinterpret_cast<const void* const *>(d_B_array),
+                                     traits<data_type>::cuda_data_type, ldb, &beta, 
+                                     reinterpret_cast<void* const *>(d_C_array),
                                      traits<data_type>::cuda_data_type, ldc, batch_count,
                                      compute_type, CUBLAS_GEMM_DEFAULT_TENSOR_OP));
 
@@ -170,6 +204,9 @@ int main(int argc, char *argv[]) {
     /*
      *   C = | 19.0 | 43.0 | 111.0 | 151.0 |
      *       | 22.0 | 50.0 | 122.0 | 166.0 |
+     *  我感觉这个数组是不是标错了，正确结果应该是
+     *   C = | 19.0 | 22.0 | 111.0 | 122.0 |
+     *       | 43.0 | 50.0 | 151.0 | 166.0 |
      */
 
     printf("C[0]\n");

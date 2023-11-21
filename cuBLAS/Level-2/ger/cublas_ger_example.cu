@@ -71,12 +71,17 @@ int main(int argc, char *argv[]) {
      *       | 3.0 4.0 |
      *   x = | 5.0 6.0 |
      *   y = | 7.0 8.0 |
+     * 
+     * 
+     *   公式:
+     *   A := alpha * x @ y.T + A
+     *   其中x是列向量, y.T是行向量
      */
 
     std::vector<data_type> A = {1.0, 3.0, 2.0, 4.0};
     const std::vector<data_type> x = {5.0, 6.0};
     const std::vector<data_type> y = {7.0, 8.0};
-    const data_type alpha = 2.0;
+    const data_type alpha = 1.0; //2.0;
     const int incx = 1;
     const int incy = 1;
 

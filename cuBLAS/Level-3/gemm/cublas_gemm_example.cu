@@ -68,12 +68,19 @@ int main(int argc, char *argv[]) {
     const int lda = 2;
     const int ldb = 2;
     const int ldc = 2;
-    /*
+    /**
+     * 我不知道这A，B放这里是不是误导别人:
      *   A = | 1.0 | 2.0 |
      *       | 3.0 | 4.0 |
      *
      *   B = | 5.0 | 6.0 |
      *       | 7.0 | 8.0 |
+     * 但是运算逻辑中，实际上的A，B分别是
+     *   A = | 1.0 | 3.0 |
+     *       | 2.0 | 4.0 |
+     *   B = | 5.0 | 7.0 |
+     *       | 6.0 | 8.0 |
+     * 
      */
 
     const std::vector<data_type> A = {1.0, 2.0, 3.0, 4.0};

@@ -1,0 +1,6 @@
+
+**/CMakeFiles/**
+*.cmake
+*cublas*example
+Makefile
+CMakeCache.txt

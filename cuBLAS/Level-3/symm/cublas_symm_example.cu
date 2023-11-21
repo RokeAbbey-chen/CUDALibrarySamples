@@ -76,7 +76,7 @@ int main(int argc, char *argv[]) {
      *       | 7.0 | 8.0 |
      */
 
-    const std::vector<data_type> A = {1.0, 3.0, 3.0, 4.0};
+    const std::vector<data_type> A = {1.0, 0.0, 3.0, 4.0};
     const std::vector<data_type> B = {5.0, 7.0, 7.0, 8.0};
     std::vector<data_type> C(m * n);
     const data_type alpha = 1.0;
